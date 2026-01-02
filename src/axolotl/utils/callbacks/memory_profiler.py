@@ -1,5 +1,5 @@
 """
-HF Trainer callback for creating pytorch profiling snapshots
+HF Trainer callback for creating memory profiling snapshots
 """
 
 from pathlib import Path
@@ -14,9 +14,9 @@ from transformers import (
 )
 
 
-class PytorchProfilerCallback(TrainerCallback):
+class MemoryProfilerCallback(TrainerCallback):
     """
-    PyTorch Profiler callback to create snapshots of GPU memory usage at specified steps.
+    Memory profiler callback to create snapshots of GPU memory usage at specified steps.
     """
 
     def __init__(self, steps_to_profile: int = 5, profiler_steps_start: int = 0):

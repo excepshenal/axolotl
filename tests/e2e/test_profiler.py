@@ -1,5 +1,5 @@
 """
-e2e gpu test for the pytorch profiler callback
+e2e gpu test for the memory profiler callback
 """
 
 from pathlib import Path
@@ -44,14 +44,14 @@ def fixture_profiler_base_cfg():
 
 class TestProfiler:
     """
-    test cases for the pytorch profiler callback
+    test cases for the memory profiler callback
     """
 
     def test_profiler_saves(self, profiler_base_cfg, temp_dir):
         cfg = profiler_base_cfg | DictDefault(
             output_dir=temp_dir,
             max_steps=5,
-            profiler_steps=3,
+            memory_profiler_steps=3,
         )
 
         cfg = validate_config(cfg)
@@ -65,8 +65,8 @@ class TestProfiler:
         cfg = profiler_base_cfg | DictDefault(
             output_dir=temp_dir,
             max_steps=5,
-            profiler_steps=3,
-            profiler_steps_start=1,
+            memory_profiler_steps=3,
+            memory_profiler_steps_start=1,
         )
 
         cfg = validate_config(cfg)
@@ -77,17 +77,17 @@ class TestProfiler:
         assert (Path(temp_dir) / "snapshot.pickle").exists()
 
     @pytest.mark.parametrize(
-        "profiler_steps_start",
+        "memory_profiler_steps_start",
         [3, 5],
     )
     def test_profiler_saves_past_end(
-        self, profiler_base_cfg, temp_dir, profiler_steps_start
+        self, profiler_base_cfg, temp_dir, memory_profiler_steps_start
     ):
         cfg = profiler_base_cfg | DictDefault(
             output_dir=temp_dir,
             max_steps=5,
-            profiler_steps=3,
-            profiler_steps_start=profiler_steps_start,
+            memory_profiler_steps=3,
+            memory_profiler_steps_start=memory_profiler_steps_start,
         )
 
         cfg = validate_config(cfg)
@@ -101,8 +101,8 @@ class TestProfiler:
         cfg = profiler_base_cfg | DictDefault(
             output_dir=temp_dir,
             max_steps=5,
-            profiler_steps=3,
-            profiler_steps_start=6,
+            memory_profiler_steps=3,
+            memory_profiler_steps_start=6,
         )
 
         cfg = validate_config(cfg)
