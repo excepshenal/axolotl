@@ -884,6 +884,24 @@ class AxolotlInputConfig(
             "description": "Which step to start the memory profiler at. Useful for only capturing a few steps mid-run."
         },
     )
+    pytorch_profiler_steps_wait: int | None = Field(
+        default=0,
+        json_schema_extra={
+            "description": "Number of steps to wait before starting the PyTorch profiler."
+        },
+    )
+    pytorch_profiler_steps_warmup: int | None = Field(
+        default=0,
+        json_schema_extra={
+            "description": "Number of steps to warmup before starting the PyTorch profiler."
+        },
+    )
+    pytorch_profiler_steps_active: int | None = Field(
+        default=0,
+        json_schema_extra={
+            "description": "Number of steps to actively profile before stopping the PyTorch profiler."
+        },
+    )
     include_tokens_per_second: bool | None = Field(
         default=None,
         json_schema_extra={

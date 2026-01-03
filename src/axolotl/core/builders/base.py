@@ -43,6 +43,7 @@ from axolotl.utils.callbacks import (
     SaveModelOnFirstStepCallback,
 )
 from axolotl.utils.callbacks.memory_profiler import MemoryProfilerCallback
+from axolotl.utils.callbacks.pytorch_profiler import PytorchProfilerCallback
 from axolotl.utils.distributed import build_parallelism_config
 from axolotl.utils.schemas.enums import CustomSupportedOptimizers
 
@@ -170,6 +171,16 @@ class TrainerBuilderBase(abc.ABC):
                 MemoryProfilerCallback(
                     steps_to_profile=self.cfg.memory_profiler_steps,
                     profiler_steps_start=self.cfg.memory_profiler_steps_start,
+                )
+            )
+
+        if self.cfg.pytorch_profiler_steps_active:
+            callbacks.append(
+                PytorchProfilerCallback(
+                    cfg=self.cfg,
+                    profiler_steps_wait=self.cfg.pytorch_profiler_steps_wait,
+                    profiler_steps_warmup=self.cfg.pytorch_profiler_steps_warmup,
+                    profiler_steps_active=self.cfg.pytorch_profiler_steps_active,
                 )
             )
 
