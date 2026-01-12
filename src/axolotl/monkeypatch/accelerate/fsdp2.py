@@ -379,7 +379,7 @@ def fsdp2_prepare_model(accelerator, model: torch.nn.Module) -> torch.nn.Module:
 def patch_accelerate_fsdp2():
     import accelerate
 
-    accelerate.accelerator.fsdp2_prepare_model = fsdp2_prepare_model
+    # accelerate.accelerator.fsdp2_prepare_model = fsdp2_prepare_model
     accelerate.Accelerator.get_state_dict = get_state_dict
     setattr(
         sys.modules["accelerate"],
