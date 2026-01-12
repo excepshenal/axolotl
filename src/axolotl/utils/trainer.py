@@ -471,9 +471,12 @@ def calculate_total_num_steps(cfg, train_dataset, update=True):
                 sampler = SequentialSampler(train_dataset)
             else:
                 sampler = RandomSampler(train_dataset)
+            lengths = get_dataset_lengths(train_dataset)
+            print(f"[axolotl] average length: {lengths.mean()}")
+            print(f"[axolotl] max length: {lengths.max()}")
             sampler = MultipackBatchSampler(
                 sampler=sampler,
-                lengths=get_dataset_lengths(train_dataset),
+                lengths=lengths,
                 batch_size=sampler_batch_size,
                 batch_max_len=batch_max_len,
                 group_size=cfg.sample_packing_group_size,
