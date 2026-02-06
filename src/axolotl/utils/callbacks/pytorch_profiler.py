@@ -25,7 +25,7 @@ class PytorchProfilerCallback(TrainerCallback):
             on_trace_ready=torch.profiler.tensorboard_trace_handler(os.path.join(cfg.output_dir, "pytorch_profile")),
             record_shapes=True,
             profile_memory=True,
-            with_stack=True
+            with_stack=False
         )
         self.prof.start()
 
