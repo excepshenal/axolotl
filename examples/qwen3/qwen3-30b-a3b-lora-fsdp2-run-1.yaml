@@ -43,7 +43,8 @@ adapter: lora
 lora_r: 8
 lora_alpha: 16
 lora_dropout: 0.05
-lora_target_linear: true
+# lora_target_linear: true
+lora_target_modules: [q_proj, k_proj, v_proj, o_proj, up_proj, gate_proj, down_proj]
 
 ### LEARNING
 num_epochs: 1
