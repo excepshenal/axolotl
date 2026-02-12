@@ -1,0 +1,69 @@
+### MODEL
+base_model: Qwen/Qwen3-235B-A22B-Instruct-2507
+
+bf16: true
+
+flash_attention: true
+attn_implementation: kernels-community/vllm-flash-attn3  # this is not needed if using flash_attn >= 2.8.3
+plugins:
+  - axolotl.integrations.cut_cross_entropy.CutCrossEntropyPlugin
+
+### PARALLELISM
+dp_shard_size: 8  # 8xH100; optional since if not set, will use all available devices
+
+fsdp_version: 2
+# https://huggingface.co/docs/accelerate/en/usage_guides/fsdp
+fsdp_config:
+  activation_checkpointing: true
+  offload_params: false
+  cpu_ram_efficient_loading: true
+  sync_module_states: true
+  use_orig_params: true # for LoRA; https://dev-discuss.pytorch.org/t/rethinking-pytorch-fully-sharded-data-parallel-fsdp-from-first-principles/1019
+  state_dict_type: FULL_STATE_DICT
+  auto_wrap_policy: TRANSFORMER_BASED_WRAP
+  transformer_layer_cls_to_wrap: Qwen3MoeDecoderLayer
+  reshard_after_forward: true
+
+### DATA
+datasets:
+  - path: tatsu-lab/alpaca
+    type: alpaca
+
+dataset_prepared_path: dataset_prepared_last_run
+val_set_size: 0.05
+
+sequence_len: 1024
+sample_packing: true
+pad_to_sequence_len: true
+gradient_accumulation_steps: 1
+micro_batch_size: 1
+
+### LORA
+adapter: lora
+lora_r: 8
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target_linear: true
+
+### LEARNING
+num_epochs: 1
+optimizer: adamw_torch_fused
+lr_scheduler: cosine
+learning_rate: 1e-5
+warmup_ratio: 0.1
+
+### OBSERVABILITY
+wandb_project: qwen3-235b-a22b-bf16-lora-fsdp2
+wandb_entity: 
+wandb_watch:
+wandb_name: qwen3-235b-a22b-bf16-lora-fsdp2-run-1
+wandb_log_model:
+
+output_dir: /workspace/outputs/qwen3-235b-a22b-bf16-lora-fsdp2-run-1/
+logging_steps: 1
+memory_profiler_steps: 2
+pytorch_profiler_steps_wait: 1
+pytorch_profiler_steps_warmup: 1
+pytorch_profiler_steps_active: 1
+
+save_strategy: "no"
