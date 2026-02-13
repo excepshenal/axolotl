@@ -16,7 +16,7 @@ fsdp_version: 2
 fsdp_config:
   activation_checkpointing: true
   offload_params: false
-  cpu_ram_efficient_loading: true
+  cpu_ram_efficient_loading: false
   sync_module_states: true
   use_orig_params: true # for LoRA; https://dev-discuss.pytorch.org/t/rethinking-pytorch-fully-sharded-data-parallel-fsdp-from-first-principles/1019
   state_dict_type: FULL_STATE_DICT
